@@ -3,7 +3,7 @@
 The python code accompanying my Bachelor Thesis about the scaling of of the attractor dimension in the discretized Kuramoto-Sivashinsky equation.
 
 
-This repositery contains the following two files:
+This repository contains the following two files:
 
 **1. KS_Solve.py**
 
