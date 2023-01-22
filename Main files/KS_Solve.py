@@ -1,6 +1,5 @@
 import numpy as np
 import plotly.express as px
-from tempfile import TemporaryFile
 
 # Parameters
 L = 100                  # domain length

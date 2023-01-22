@@ -1,22 +1,21 @@
 import numpy as np
 from tempfile import TemporaryFile
-from IPython.display import display, clear_output
 
 # Parameters
 t0  = 0                  # t_0
 tn  = 2000               # t_max 
 eps = 0.00000001         # epsilon
 
-# Parameters and initial conditions that depend on L.
+# Parameters and initial conditions that depend on L and/or M.
 def update_parameters(gridsize, current_domain):
 
     # Discretization
     global L, M, dt, nt, Q_dim, Dx, Dxx, Dxxxx, k_lin
     L      = current_domain
     M      = gridsize
-    dt     = 0.0005              # stepsize
-    nt     = int((tn - t0) / dt) # amount of steps 
-    Q_dim  = M                   # length of Q
+    dt     = 0.0005                     # stepsize
+    nt     = int((tn - t0) / dt)        # amount of steps 
+    Q_dim  = M                          # length of Q
     D      = np.linspace(-M//2,M//2,M,endpoint=False)
     Dx     = np.fft.fftshift(np.multiply(D,(2*np.pi/L)))*np.sqrt(-1+0j)
     Dxx    = -np.fft.fftshift(np.power(np.multiply(D,(2*np.pi/L)),2))
@@ -101,10 +100,7 @@ def q_plus1(u_half, q, q_half):
     return q + np.multiply(dt,fu_dotq(u_half, q_half)) + np.multiply(dt,Lu(q_half))
 
 # Orthogonalize Y while applying QR factorization using the Modified Gramm Schmidt method.
-def MGS(Y):
-
-    Q = Y
-
+def MGS(Q):
     for m in range(len(Y[0])):
         for j in range(0, m):
             R_mj =  np.vdot(Q[:,j].transpose(),Q[:,m])
@@ -138,7 +134,7 @@ def KS_Solve_and_get_Bii(u, Q):
             q_ihalf     = q_half(u_i, q_j)
             A_iQ_i[:,j] = q_plus1(u_ihalf, q_j, q_ihalf)
 
-        # Compute Q_{j+1} as the QR factorization of A_jQ_j using the modified Gram-Schmidt method
+        # Compute Q_{i+1} as the QR factorization of A_iQ_i using the modified Gram-Schmidt method
         Q = MGS(A_iQ_i)
 
         B_ii[:,i] = np.dot(Q.transpose(),AQ(u[:,i+1], Q)).diagonal()
