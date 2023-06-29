@@ -1,6 +1,6 @@
 # Calculate the attractor dimension of the Kuramoto-Sivashinsky equation
 
-This is the python code accompanying my Bachelor Thesis about the scaling of of the attractor dimension in the discretized Kuramoto-Sivashinsky equation.
+This is the python code accompanying my Bachelor Thesis about the scaling of the attractor dimension in the discretized Kuramoto-Sivashinsky equation.
 
 
 This repository contains the following two files:
